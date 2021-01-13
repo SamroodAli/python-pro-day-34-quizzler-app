@@ -46,20 +46,31 @@ class QuizInterface:
         self.window.mainloop()
 
     def get_next_question(self):
-        next_question_text = self.quiz_brain.next_question()
-        self.canvas.itemconfig(self.question_text, text=next_question_text)
+        self.canvas.config(bg="white")
+        if self.quiz_brain.still_has_questions():
+            next_question_text = self.quiz_brain.next_question()
+            self.canvas.itemconfig(self.question_text, text=next_question_text)
+        else:
+            self.canvas.itemconfig(self.question_text, text="You have reached the end of the questions")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
 
     def is_true(self):
-        correct = self.quiz_brain.check_answer(True)
-        if correct:
-            self.update_score()
-        self.get_next_question()
+        is_correct = self.quiz_brain.check_answer("True")
+        self.give_feedback(is_correct)
 
     def is_false(self):
-        correct = self.quiz_brain.check_answer(False)
-        if correct:
-            self.update_score()
-        self.get_next_question()
+        is_correct = self.quiz_brain.check_answer("False")
+        self.give_feedback(is_correct)
 
     def update_score(self):
         self.score_label.config(text=f"Score: {self.quiz_brain.score}")
+
+    def give_feedback(self, is_correct: bool):
+        self.update_score()
+        if is_correct:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+        self.window.after(500, func=self.get_next_question)
+
