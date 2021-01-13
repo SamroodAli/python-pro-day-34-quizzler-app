@@ -24,11 +24,10 @@ class QuizBrain:
         # self.check_answer(user_answer)
         return f"Q.{self.question_number}: {question_text}"
 
-    def check_answer(self, user_answer: bool):
+    def check_answer(self, user_answer: str):
         """Check if the answer is correct"""
-        correct_answer = bool(self.current_question.answer)
+        correct_answer = self.current_question.answer
         if user_answer == correct_answer:
             self.score += 1
             return True
-        else:
-            return False
+        return False

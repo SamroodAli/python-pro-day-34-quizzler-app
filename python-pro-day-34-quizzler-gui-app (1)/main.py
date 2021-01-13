@@ -1,20 +1,19 @@
+"""Main module"""
 from question_model import Question
-from data import questions_data
+from data import QUESTIONS_DATA
 from quiz_brain import QuizBrain
 from ui import QuizInterface
 
-
-
-question_bank = []
-for question in questions_data:
+QUESTION_BANK = []
+for question in QUESTIONS_DATA:
     question_text = question["question"]
     question_answer = question["correct_answer"]
     new_question = Question(question_text, question_answer)
-    question_bank.append(new_question)
+    QUESTION_BANK.append(new_question)
 
 
-quiz = QuizBrain(question_bank)
-quiz_ui = QuizInterface(quiz)
+QUIZ = QuizBrain(QUESTION_BANK)
+QUIZ_UI = QuizInterface(QUIZ)
 
 print("You've completed the quiz")
-print(f"Your final score was: {quiz.score}/{quiz.question_number}")
+print(f"Your final score was: {QUIZ.score}/{QUIZ.question_number}")
