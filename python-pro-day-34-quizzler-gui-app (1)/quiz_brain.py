@@ -1,4 +1,5 @@
 """Quiz Brain Module"""
+import html
 
 
 class QuizBrain:
@@ -17,7 +18,9 @@ class QuizBrain:
         """Next question prompt"""
         self.current_question = self.question_list[self.question_number]
         self.question_number += 1
-        user_answer = input(f"Q.{self.question_number}: {self.current_question.text} (True/False): ")
+        # Unescape HTML Entities in questions using html library's unescape
+        question_text = html.unescape(self.current_question.text)
+        user_answer = input(f"Q.{self.question_number}: {question_text} (True/False): ")
         self.check_answer(user_answer)
 
     def check_answer(self, user_answer):
